@@ -11,6 +11,10 @@ public static class TimespanExtensions {
 		return TimeSpan.FromMinutes(t);
 	}
 
+	public static TimeSpan hour(this int t) {
+		return TimeSpan.FromHours(t);
+	}
+
 	public static TimeSpan msec(this int t) {
 		return TimeSpan.FromMilliseconds(t);
 	}

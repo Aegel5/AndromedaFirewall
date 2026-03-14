@@ -36,7 +36,7 @@
 		</ListBox.Styles>
 		<ListBox.ItemTemplate>
 			<DataTemplate x:DataType="Meda:LogItem">
-				<TextBlock   Text="{Binding}" FontSize="12" TextWrapping="NoWrap" />
+				<TextBlock   Text="{Binding}" FontSize="14" TextWrapping="NoWrap" />
 			</DataTemplate>
 		</ListBox.ItemTemplate>
 	</ListBox>

@@ -1,4 +1,5 @@
-﻿using Avalonia.Threading;
+﻿using Avalonia.Controls.Platform;
+using Avalonia.Threading;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Parsers;
 using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
@@ -10,7 +11,6 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace AndromedaDnsFirewall.main;
 
 
@@ -19,7 +19,7 @@ namespace AndromedaDnsFirewall.main;
 internal static class ProcessTracer {
 
 	static Dictionary<int, string> PidsToFullPath = new();
-	static Dictionary<string, ProcessInfoModel> StableIdToInfo = new();
+	static Dictionary<string, ProcessInfoModel> StableIdToInfo = new(); // пока храним бесконечно.
 
 	static ProcessInfoModel GetProcessInfo(int pid, string name) {
 
@@ -32,8 +32,12 @@ internal static class ProcessTracer {
 			// новая запись
 			info = new(name, stableId);
 			StableIdToInfo.Add(stableId, info);
+		} else if(info._lastUpdated.DeltToNow >= 12.hour()){
+			// давно не обновлялись, чистим статистику
+			info.ClearStatistics();
 		}
 		info.LastPid = pid; // обновим pid
+		info._lastUpdated = TimePoint.Now;
 		return info;
 	}
 
@@ -54,10 +58,11 @@ internal static class ProcessTracer {
 			return;
 		}
 
+
 		Task.Run(() => {
 			do {
 				try {
-
+					DateTime dtStart = DateTime.UtcNow;
 					using var session = new TraceEventSession("AndromedaNetMonitor");
 
 					// Включаем ядро для отслеживания сети

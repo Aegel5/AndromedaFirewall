@@ -25,7 +25,7 @@ record LogItem {
 	public LogItem() {
 		dt = DateTime.UtcNow;
 	}
-
+	public int packetSize = -1;
 	int fromCacheCnt;
 	public bool IsSame(LogItem other) {
 		return log_type == other.log_type && domain == other.domain;

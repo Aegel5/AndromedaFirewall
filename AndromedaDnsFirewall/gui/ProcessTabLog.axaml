@@ -13,6 +13,12 @@
 		
 	>
 
+		<ListBox.ContextMenu>
+			<ContextMenu>
+				<MenuItem Name="cmd_copy" Header="Copy full path" />
+			</ContextMenu>
+		</ListBox.ContextMenu>
+
 		<ListBox.Styles>
 			<Style Selector="ListBoxItem">
 				<Setter Property="Padding" Value="0"/>
@@ -21,10 +27,11 @@
 		
 		<ListBox.ItemTemplate>
 			<DataTemplate x:DataType="Meda:main.ProcessInfoModel">
-				<TextBlock   Text="{Binding}" FontSize="12" TextWrapping="NoWrap" />
+				<TextBlock   Text="{Binding}" FontSize="14" TextWrapping="NoWrap" />
 			</DataTemplate>
 		</ListBox.ItemTemplate>
 		
 	</ListBox>
+
 	
 </UserControl>

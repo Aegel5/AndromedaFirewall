@@ -88,6 +88,7 @@ internal class MainHolder {
 		try {
 
 			var raw_buf = dnsItem.req;
+			logitem.packetSize = raw_buf.Length;
 			reqId = DnsSimpleParser.ReadId(raw_buf);
 			int questionsCount = DnsSimpleParser.QuestCount(raw_buf);
 

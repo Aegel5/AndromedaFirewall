@@ -27,15 +27,20 @@ class ProcessInfoModel {
 		set => Interlocked.Exchange(ref field, value);
 	}
 	TCounts counts;
-	static long nextId = 15;
-	public long Id { get; init; } = nextId++;
 
 	public TimePoint _lastNotified;
+
+	public TimePoint _lastUpdated;
+
+	public void ClearStatistics() {
+		counts = new();
+	}
 
 	public ProcessInfoModel(string name, string fullname) {
 		this.Name = name;
 		this.fullPath = fullname;
 	}
+
 
 	public void AddType(ProcessTraceType type) {
 		Interlocked.Increment(ref counts[(int)type]);

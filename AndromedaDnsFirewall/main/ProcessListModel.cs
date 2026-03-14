@@ -1,30 +1,36 @@
 ﻿using AndromedaDnsFirewall.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace AndromedaDnsFirewall.main; 
 internal static class ProcessListModel {
 
-	static readonly ObservableDeque<ProcessInfoModel> deque = new();
+	static readonly ObservableCollection<ProcessInfoModel> list = new();
 
 	// выходная дорожка из класса
-	public static IEnumerable<ProcessInfoModel> ModelBinding => deque;
+	public static IEnumerable<ProcessInfoModel> ModelBinding => list;
 
 	// входная и единственная дорожка в класс
 	static public void NotifyChanged(ProcessInfoModel info) {
-		// Алогоритм пока простой: ищем запись в первых 20 записях. Нашли - обновляем, нет - вставляем в начало (могут быть дубликаты это норм
-		for (int i = 0; i < Math.Min(20, deque.Count); i++) {
-			if (deque[i].Id == info.Id) {
-				// нашли, просто обновляем
-				deque.NotifyUpdated(i);
-				return;
+		// Пока: 1) храним последние 70 2) прекидываем наверх при обновлении. 3) поиск - полный проход
+		for (int i = 0; i < list.Count; i++) {
+			if (ReferenceEquals(list[i], info)) {
+				if (i <= 5) {
+					// просто тригерем обновление
+					list[i] = info;
+					return;
+				} else {
+					list.RemoveAt(i);
+					break;
+				}
 			}
 		}
-		// станартная вставка
-		deque.PushFrontNotify(info);
-		while (deque.Count > 100) {
-			deque.PopBackNofity();
+		list.Insert(0, info);
+		while (list.Count > 70) {
+			// удаляем старые
+			list.RemoveAt(list.Count - 1);
 		}
 	}
 }
