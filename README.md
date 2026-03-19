@@ -16,7 +16,10 @@
  - Показывает сетевую активность (TCP, UDP) всех процессов (через ETW), автоматически скрывает loopback активность.
  - Блокировка доступа по полному пути или по маске (через Window Firewall) (не реализованно)
 
-<img width="983" height="748" alt="изображение" src="https://github.com/user-attachments/assets/9adab727-cdc1-4a48-92ba-fbefa046ee82" />
+<img width="1426" height="746" alt="изображение" src="https://github.com/user-attachments/assets/6d5b4ece-17c0-4f62-8096-5a9d8521675e" />
+
+
+
 
 
 
