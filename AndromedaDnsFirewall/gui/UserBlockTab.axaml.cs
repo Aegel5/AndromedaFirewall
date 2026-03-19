@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using System.Collections.Generic;
 
 namespace AndromedaDnsFirewall;
 
@@ -12,7 +11,7 @@ public partial class UserBlockTab : UserControl {
 		cmd_delete.Click += (a, b) => {
 			if (ge_logs.SelectedItem == null) return;
 			var cur = (UserRuleModel?)ge_logs.SelectedItem;
-			if(cur != null)
+			if (cur != null)
 				UserLists.Delete(cur);
 			Update();
 		};

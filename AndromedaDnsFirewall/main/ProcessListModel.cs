@@ -1,10 +1,8 @@
-﻿using AndromedaDnsFirewall.Utils;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 
-namespace AndromedaDnsFirewall.main; 
+namespace AndromedaDnsFirewall.main;
+
 internal static class ProcessListModel {
 
 	static readonly ObservableCollection<ProcessInfoModel> list = new();

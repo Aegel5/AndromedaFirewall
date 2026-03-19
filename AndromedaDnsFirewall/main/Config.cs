@@ -80,8 +80,8 @@ class Config {
 		];
 	public string ServerAddress { get; set; } = "127.0.0.1:53";
 
-	public bool AddToAutostart { 
-		get => field; 
+	public bool AddToAutostart {
+		get => field;
 		set {
 			if (value != field) { field = value; NeedSave(); }
 		}

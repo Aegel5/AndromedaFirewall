@@ -1,10 +1,10 @@
-﻿using AndromedaDnsFirewall;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using Microsoft.Win32.TaskScheduler;
 using System;
 using System.Linq;
 
 namespace AutostartHandler;
+
 public class AutostartUtils {
 
 	string taskName;
@@ -12,26 +12,26 @@ public class AutostartUtils {
 		this.taskName = taskName;
 	}
 
-    static RegistryKey CurRun => Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+	static RegistryKey CurRun => Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
 
-    public string Reg_GetAutostartExe() {
-        var rkey = CurRun;
-        var obj = rkey.GetValue(taskName);
-        var val = obj as string;
-        return val;
-    }
+	public string Reg_GetAutostartExe() {
+		var rkey = CurRun;
+		var obj = rkey.GetValue(taskName);
+		var val = obj as string;
+		return val;
+	}
 
-    public void Reg_RemoveAutostart() {
-        var rkey = CurRun;
-		if(rkey.GetValue(taskName) != null)
+	public void Reg_RemoveAutostart() {
+		var rkey = CurRun;
+		if (rkey.GetValue(taskName) != null)
 			rkey.DeleteValue(taskName);
-        
-    }
 
-    public void Reg_SetCurAutostart(string cmd) {
-        var rkey = CurRun;
-        rkey.SetValue(taskName, cmd);
-    }
+	}
+
+	public void Reg_SetCurAutostart(string cmd) {
+		var rkey = CurRun;
+		rkey.SetValue(taskName, cmd);
+	}
 
 	public string? SH_GetAutostartExe() {
 		using TaskService ts = new TaskService();
@@ -48,7 +48,7 @@ public class AutostartUtils {
 
 
 
-	public void SH_SetCurAutostart(string path, string? args =null) {
+	public void SH_SetCurAutostart(string path, string? args = null) {
 		using TaskService ts = new TaskService();
 		var td = ts.NewTask();
 		td.RegistrationInfo.Description = "My task";

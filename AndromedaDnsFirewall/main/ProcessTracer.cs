@@ -1,15 +1,9 @@
-﻿using Avalonia.Controls.Platform;
-using Avalonia.Threading;
-using Microsoft.Diagnostics.Tracing;
+﻿using Avalonia.Threading;
 using Microsoft.Diagnostics.Tracing.Parsers;
-using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
 using Microsoft.Diagnostics.Tracing.Session;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 namespace AndromedaDnsFirewall.main;
 
@@ -32,7 +26,7 @@ internal static class ProcessTracer {
 			// новая запись
 			info = new(name, stableId);
 			StableIdToInfo.Add(stableId, info);
-		} else if(info._lastUpdated.DeltToNow >= 12.hour()){
+		} else if (info._lastUpdated.DeltToNow >= 12.hour()) {
 			// давно не обновлялись, чистим статистику
 			info.ClearStatistics();
 		}
@@ -136,7 +130,7 @@ internal static class ProcessTracer {
 				} catch (Exception ex) {
 					Dispatcher.UIThread.Post(() => {
 						Log.Err(ex);
-						GuiTools.ShowMessageNoWait(ex.Message); 
+						GuiTools.ShowMessageNoWait(ex.Message);
 
 					});
 

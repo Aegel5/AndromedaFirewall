@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace AndromedaDnsFirewall.main;
 
-enum ProcessTraceType  {
-	TCP = 0, 
-	TCP6 = 1, 
-	UDP = 2, 
+enum ProcessTraceType {
+	TCP = 0,
+	TCP6 = 1,
+	UDP = 2,
 	UDP6 = 3
 }
 

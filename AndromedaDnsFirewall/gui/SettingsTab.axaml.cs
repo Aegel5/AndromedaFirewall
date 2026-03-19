@@ -15,7 +15,7 @@ public partial class SettingsTab : UserControl {
 		var is_reg = checker.Reg_GetAutostartExe() == path;
 		var s = checker.SH_GetAutostartExe();
 		var is_sh = s == path;
-		 ge_autostart.IsChecked = Config.Inst.AddToAutostart = ProgramUtils.IsElevated ? !is_reg && is_sh : is_reg && !is_sh;
+		ge_autostart.IsChecked = Config.Inst.AddToAutostart = ProgramUtils.IsElevated ? !is_reg && is_sh : is_reg && !is_sh;
 	}
 	void SetAutostart() {
 		try {

@@ -1,7 +1,4 @@
 ﻿using AndromedaDnsFirewall.gui;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AndromedaDnsFirewall;
 
