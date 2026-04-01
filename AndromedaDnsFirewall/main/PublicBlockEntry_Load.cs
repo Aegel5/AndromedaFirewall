@@ -29,17 +29,47 @@ internal partial class PublicBlockEntry {
 		return new NetworkStream(socket, ownsSocket: true);
 	}
 
+	public static void RemoveDuplicatesAndResize<T>(ref T[] items) where T : IEquatable<T> {
+		if (items == null || items.Length <= 1) return;
+
+		int uniqueIndex = 0;
+
+		// 1. Сдвигаем уникальные элементы в начало (O(n))
+		for (int i = 1; i < items.Length; i++) {
+			// Используем метод Equals для сравнения обобщенных типов
+			if (!items[i].Equals(items[uniqueIndex])) {
+				uniqueIndex++;
+				items[uniqueIndex] = items[i];
+			}
+		}
+
+		int uniqueCount = uniqueIndex + 1;
+
+		// 2. Сжимаем массив, если нашли дубликаты
+		if (uniqueCount < items.Length) {
+			Array.Resize(ref items, uniqueCount);
+		}
+	}
 
 
 	void Apply(byte[] cont) { // no await
 
 		List<QuickHashType> temp = new(8192);
-		Utf8Utils.Split(cont, (byte)'\n', x => {
+		Utf8Utils.Split(cont, [(byte)'\n', (byte)'\r'], x => {
+			x = x.Trim((byte)' ');
+			if (x.IsEmpty) return;
 			if (x[0] == '#') return;
+			var iSpace = x.LastIndexOf((byte)' ');
+			if (iSpace != -1) {
+				x = x.Slice(iSpace+1);
+			}
 			temp.Add(HashUtils.QuickHash(x));
 		});
+
 		cache = temp.ToArray();
 		Array.Sort(cache);
+
+		RemoveDuplicatesAndResize(ref cache);
 
 		//var ok = cache.AsEnumerable().Distinct().Count() == cache.Length;
 

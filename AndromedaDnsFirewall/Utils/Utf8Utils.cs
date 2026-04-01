@@ -71,6 +71,26 @@ internal static class Utf8Utils {
 
 	}
 
+	public static void Split(ReadOnlySpan<byte> utf8, byte[] separator, Action<ReadOnlySpan<byte>> action) {
+
+		int pos = 0;
+		while (true) {
+			int index = utf8.Slice(pos).IndexOfAny(separator);
+			if (index < 0) break;
+
+			if (index > 0) {
+				action(utf8.Slice(pos, index));
+			}
+
+			pos += index + 1;
+		}
+
+		if (pos < utf8.Length) {
+			action(utf8.Slice(pos));
+		}
+
+	}
+
 
 	async public static void SplitAsync(Stream stream, byte separator, Action<ReadOnlySpan<byte>> action) {
 
