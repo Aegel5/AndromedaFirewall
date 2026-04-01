@@ -1,31 +1,37 @@
-﻿{
-	"PublicBlockLists": [
-		{
-			"UpdateHour": 5,
-			"Url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/domains/pro.txt",
-			"Enabled": false
-		},
-		{
-			"UpdateHour": 5,
-			"Url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/domains/ultimate.txt",
-			"Enabled": true
-		}
-	],
-	"useServers_DOH": true,
-	"DnsResolvers_DOH": [
-		"https://1.0.0.1/dns-query",
-		"https://1.1.1.1/dns-query",
-		"https://8.8.4.4/dns-query",
-		"https://8.8.8.8/dns-query"
-	],
-	"useServers_UDP": false,
-	"DnsResolvers_UDP": [
-		"default_gateway",
-		"1.0.0.1",
-		"1.1.1.1",
-		"8.8.4.4",
-		"8.8.8.8"
-	],
-	"ServerAddress": "127.0.0.1:53",
-	"IpCacheTimeMinutes":  15
+{
+  "PublicBlockLists": [
+    {
+      "UpdateHour": 5,
+      "Url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/domains/pro.txt",
+      "Enabled": false
+    },
+    {
+      "UpdateHour": 5,
+      "Url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/domains/ultimate.txt",
+      "Enabled": true
+    },
+    {
+      "UpdateHour": 5,
+      "Url": "https://raw.githubusercontent.com/Zalexanninev15/NoADS_RU/main/hosts/blockerFL.txt",
+      "Enabled": false
+    }
+  ],
+  "useServers_DOH": true,
+  "DnsResolvers_DOH": [
+    "https://1.0.0.1/dns-query",
+    "https://1.1.1.1/dns-query",
+    "https://8.8.4.4/dns-query",
+    "https://8.8.8.8/dns-query"
+  ],
+  "useServers_UDP": false,
+  "DnsResolvers_UDP": [
+    "default_gateway",
+    "1.0.0.1",
+    "1.1.1.1",
+    "8.8.4.4",
+    "8.8.8.8"
+  ],
+  "ServerAddress": "127.0.0.1:53",
+  "AddToAutostart": false,
+  "IpCacheTimeMinutes": 15
 }
