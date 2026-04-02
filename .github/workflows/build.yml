@@ -20,7 +20,7 @@ jobs:
 
       - name: Publish
         # Только архитектура и папка. Без сжатия и оптимизаций.
-        run: dotnet publish AndromedaDnsFirewall/AndromedaDnsFirewall.csproj -r win-x64 --self-contained false -o ./publish
+        run: run: dotnet publish AndromedaDnsFirewall/AndromedaDnsFirewall.csproj -c Release -r win-x64 -p:SelfContained=false -p:PublishSelfContained=false -o ./publish
 
       - name: Zip Release
         shell: pwsh
