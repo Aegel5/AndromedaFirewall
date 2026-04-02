@@ -19,7 +19,7 @@ internal static class UserLists {
 		//IncludeFields = true,
 		IgnoreReadOnlyFields = true,
 		IgnoreReadOnlyProperties = true,
-		//WriteIndented = true,
+		WriteIndented = true,
 		AllowTrailingCommas = true,
 		ReadCommentHandling = JsonCommentHandling.Skip
 	};
@@ -28,31 +28,31 @@ internal static class UserLists {
 		using var stream = File.OpenRead(path);
 		var res = JsonSerializer.Deserialize<List<UserRuleModel>>(stream, Opt);
 		if (res != null)
-			userRules = res.ToDictionary(x => (x.Target, x.Type));
+			userRules = res.ToDictionary(x => x.Target);
 	}
 
 	public static void Delete(UserRuleModel entry) {
-		userRules.Remove((entry.Target, entry.Type));
+		userRules.Remove(entry.Target);
 		Save();
 	}
 
 	public static void BlockDns(string host) {
-		userRules.GetOrAdd((host, UserRuleType.Dns), k => new(host)).Action = RuleBlockAction.Block;
+		userRules.GetOrAdd(host, k => new(host)).Action = RuleBlockAction.Block;
 		Save();
 	}
 
 	public static void AllowDns(string host) {
-		userRules.GetOrAdd((host, UserRuleType.Dns), k => new(host)).Action = RuleBlockAction.Allow;
+		userRules.GetOrAdd(host, k => new(host)).Action = RuleBlockAction.Allow;
 		Save();
 	}
 
 	public static RuleBlockAction? GetDnsAction(string domain) {
-		if (userRules.TryGetValue((domain, UserRuleType.Dns), out var res)) {
+		if (userRules.TryGetValue(domain, out var res)) {
 			return res.Action;
 		}
 		return null;
 	}
 
-	static public Dictionary<(string, UserRuleType), UserRuleModel> userRules = new();
+	static public Dictionary<string, UserRuleModel> userRules = new();
 
 }

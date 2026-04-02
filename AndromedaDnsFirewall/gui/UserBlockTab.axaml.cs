@@ -15,6 +15,24 @@ public partial class UserBlockTab : UserControl {
 				UserLists.Delete(cur);
 			Update();
 		};
+		cmd_allow.Click += (a, b) => {
+			if (ge_logs.SelectedItem == null) return;
+			var cur = (UserRuleModel?)ge_logs.SelectedItem;
+			if (cur != null) {
+				cur.Action = RuleBlockAction.Allow;
+				UserLists.Save();
+			}
+			Update();
+		};
+		cmd_block.Click += (a, b) => {
+			if (ge_logs.SelectedItem == null) return;
+			var cur = (UserRuleModel?)ge_logs.SelectedItem;
+			if (cur != null) {
+				cur.Action = RuleBlockAction.Block;
+				UserLists.Save();
+			}
+			Update();
+		};
 	}
 
 	public void Update() {
