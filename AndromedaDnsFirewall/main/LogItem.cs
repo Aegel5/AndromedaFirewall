@@ -31,6 +31,7 @@ record LogItem {
 		return log_type == other.log_type && domain == other.domain;
 	}
 	public void OverwriteWith(LogItem other) {
+		if(other.responseRaw != null) responseRaw = other.responseRaw;
 		dt = other.dt;
 		count += other.count;
 		fromCacheCnt += other.fromCacheCnt;
@@ -52,6 +53,8 @@ record LogItem {
 	List<int> questInfos = new();
 	public int count = 1;
 	public DateTime dt;
+	//public ReadOnlyMemory<byte> responseRaw; 
+	public byte[] responseRaw; 
 
 	public void SetReqType(int t) {
 		questInfos.Clear();

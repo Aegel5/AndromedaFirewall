@@ -177,9 +177,8 @@ internal class DnsResolver {
 			var cached = cacheIp.Get(domain, type);
 			if (cached != null) {
 				cnt_from_cache++;
-				var buf = cached.ToArray(); // сделаем копию, так как этот кеш могут использовать другие.
-				DnsSimpleParser.WriteId(buf, DnsSimpleParser.ReadId(req)); // перезапишем Id
-				return (buf, true);
+				return (cached, true);
+
 			}
 		}
 

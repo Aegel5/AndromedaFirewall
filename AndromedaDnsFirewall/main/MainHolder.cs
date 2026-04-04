@@ -1,6 +1,7 @@
 ﻿using AndromedaDnsFirewall.dns_server;
 using AndromedaDnsFirewall.Utils;
 using System;
+using System.Linq;
 
 namespace AndromedaDnsFirewall;
 
@@ -156,9 +157,14 @@ internal class MainHolder {
 
 			// Делаем resolve
 			var (res, fromCache) = await DnsResolver.Inst.ResolveWithCache(raw_buf, domain, request_type);
-			dnsItem.answ = res;
+			logitem.responseRaw = res; // запишем сюда именно запись из кеша, так как она все лежит в кеше (меньше памяти будем жрать).
 			if (fromCache) {
+				var buf = res.ToArray(); // сделаем копию, так как этот кеш могут использовать другие.
+				DnsSimpleParser.WriteId(buf, reqId); // перезапишем Id
+				dnsItem.answ = buf;
 				logitem.SetFromCache();
+			} else {
+				dnsItem.answ = res;
 			}
 
 		} catch (Exception ex) {

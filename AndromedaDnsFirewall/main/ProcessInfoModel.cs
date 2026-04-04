@@ -1,4 +1,7 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace AndromedaDnsFirewall.main;
@@ -14,6 +17,30 @@ enum ProcessTraceType {
 // Пока после создания вообще никогда не удаляется
 // Пишется и создается только из трейсера. Читается откуда угодно (на volatile забиваем).
 class ProcessInfoModel {
+
+	const int maxipcount = 8;
+	[InlineArray(maxipcount)] public struct IpInfo { private IPAddress ip; }
+	IpInfo ipInfo;
+	int iLastIp = -1;
+
+	public IEnumerable<IPAddress> GetIPs() {
+		for (int i = 0; i < maxipcount; i++) {
+			if (ipInfo[i] != null) yield return ipInfo[i];
+		}
+	}
+
+	public void AddIp(IPAddress ip) {
+		if (ip == null) return;
+		for (int i = 0; i < maxipcount; i++) {
+			if (ipInfo[i] == null) break;
+			if (ip.Equals(ipInfo[i]))
+				return;
+		}
+
+		iLastIp++; if (iLastIp >= maxipcount) iLastIp = 0;
+		ipInfo[iLastIp] = ip;
+	}
+
 	[InlineArray(4)] public struct TCounts { private int _firstElement; }
 
 	public string Name = "";
@@ -30,6 +57,8 @@ class ProcessInfoModel {
 
 	public void ClearStatistics() {
 		counts = new();
+		ipInfo = new();
+		iLastIp = -1;
 	}
 
 	public ProcessInfoModel(string name, string fullname) {

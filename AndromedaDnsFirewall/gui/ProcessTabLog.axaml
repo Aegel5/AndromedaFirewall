@@ -16,6 +16,7 @@
 		<ListBox.ContextMenu>
 			<ContextMenu>
 				<MenuItem Name="cmd_copy" Header="Copy full path" />
+				<MenuItem Name="cmd_info" Header="Show info" />
 			</ContextMenu>
 		</ListBox.ContextMenu>
 

@@ -66,6 +66,7 @@ internal static class ProcessTracer {
 						| KernelTraceEventParser.Keywords.ImageLoad
 						);
 
+
 					session.Source.Kernel.ProcessStart += (data) => {
 						PidsToFullPath[data.ProcessID] = data.ImageFileName;
 					};
@@ -90,12 +91,14 @@ internal static class ProcessTracer {
 					session.Source.Kernel.TcpIpConnect += (data) => {
 						if (IPAddress.IsLoopback(data.daddr)) return;
 						var cur = GetProcessInfo(data.ProcessID, data.ProcessName);
+						cur.AddIp(data.daddr);
 						cur.AddType(ProcessTraceType.TCP);
 						NotifyIfNeed(cur);
 					};
 					session.Source.Kernel.TcpIpConnectIPV6 += (data) => {
 						if (IPAddress.IsLoopback(data.daddr)) return;
 						var cur = GetProcessInfo(data.ProcessID, data.ProcessName);
+						cur.AddIp(data.daddr);
 						cur.AddType(ProcessTraceType.TCP6);
 						NotifyIfNeed(cur);
 					};
@@ -103,24 +106,30 @@ internal static class ProcessTracer {
 					session.Source.Kernel.UdpIpSend += (data) => {
 						if (IPAddress.IsLoopback(data.daddr)) return;
 						var cur = GetProcessInfo(data.ProcessID, data.ProcessName);
+						cur.AddIp(data.daddr);
 						cur.AddType(ProcessTraceType.UDP);
 						NotifyIfNeed(cur);
 					};
 					session.Source.Kernel.UdpIpSendIPV6 += (data) => {
 						if (IPAddress.IsLoopback(data.daddr)) return;
 						var cur = GetProcessInfo(data.ProcessID, data.ProcessName);
+						cur.AddIp(data.daddr);
 						cur.AddType(ProcessTraceType.UDP6);
 						NotifyIfNeed(cur);
 					};
 					session.Source.Kernel.UdpIpRecv += (data) => {
-						if (IPAddress.IsLoopback(data.saddr)) return;
+						var addr = data.saddr;
+						if (IPAddress.IsLoopback(addr)) return;
 						var cur = GetProcessInfo(data.ProcessID, data.ProcessName);
+						cur.AddIp(addr);
 						cur.AddType(ProcessTraceType.UDP);
 						NotifyIfNeed(cur);
 					};
 					session.Source.Kernel.UdpIpRecvIPV6 += (data) => {
-						if (IPAddress.IsLoopback(data.saddr)) return;
+						var addr = data.saddr;
+						if (IPAddress.IsLoopback(addr)) return;
 						var cur = GetProcessInfo(data.ProcessID, data.ProcessName);
+						cur.AddIp(addr);
 						cur.AddType(ProcessTraceType.UDP6);
 						NotifyIfNeed(cur);
 					};
